@@ -37,6 +37,6 @@ A simple **console-based Java application** for calculating students' average gr
 
 ## ✍️ Author
 
-**Alena Vodopianova** – future best developer of the year 😎
+**Alena Vodopianova** 
 
 
