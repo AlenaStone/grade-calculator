@@ -1,23 +1,28 @@
 package alena.lernen;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+        List<Student> allStudents = new ArrayList<>();
         while (true) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Hi! Here you can calculate your average grade.");
+            System.out.print("Whats your name? ");
+            String studentName = scanner.nextLine();
+            Student student = new Student(studentName);
+            allStudents.add(student);
+            System.out.println("-----------");
             System.out.print("Please tell me how many subjects you have: ");
 
             try {
                 String numberOfSubject = scanner.nextLine();
                 System.out.println("-----------");
                 int number = Integer.parseInt(numberOfSubject);
-                HashMap<String, Integer> subjectAndNote = new HashMap<>();
-                int sum = 0;
+
                 for (int i = 0; i < number; i++) {
                     System.out.print("Pleas enter your subject: ");
 
@@ -27,28 +32,30 @@ public class Main {
                     String noteString = scanner.nextLine();
                     System.out.println("-------------------------");
                     int note = Integer.parseInt(noteString);
-                    sum += note;
-                    subjectAndNote.put(subject, note);
+                    student.addGrade(subject, note);
 
                 }
-                System.out.printf("All your subjects: %s%n", subjectAndNote);
+                System.out.printf("| %-10s | %-30s | %-6s | %-20s |\n", "Name", "Grades", "Avg", "Problems");
+                System.out
+                        .println("-----------------------------------------------------------------------------------");
+                System.out.println(student.printTableRow());
 
-                for (Map.Entry<String, Integer> allSubjectAndNote : subjectAndNote.entrySet()) {
-                    System.out.println(allSubjectAndNote.getKey() + ": " + allSubjectAndNote.getValue());
-                    if (allSubjectAndNote.getValue() >= 5) {
-                        System.out.printf("Oh no, that's very bad. You could fail this course: %s%n",
-                                allSubjectAndNote.getKey());
-                    }
-                }
-
-                double averageRating = sum / (double) number;
-                System.out.printf("Your current average grade: %s%n", averageRating);
                 System.out.println("Would you like to start over? (yes/no)");
                 String exit = scanner.nextLine().toLowerCase();
-                switch (exit){
-                    case "yes": break;
-                    case "no":System.exit(0);
-                    default: System.out.println("Unknown option. Restarting by default...");
+                switch (exit) {
+                    case "yes":
+                        break;
+                    case "no":
+                        System.out.printf("| %-10s | %-30s | %-6s | %-20s |\n", "Name", "Grades", "Avg", "Problems");
+                        System.out.println(
+                                "-----------------------------------------------------------------------------------");
+
+                        for (Student s : allStudents) {
+                            System.out.println(s.printTableRow());
+                        }
+                        System.exit(0);
+                    default:
+                        System.out.println("Unknown option. Restarting by default...");
                 }
             } catch (Exception e) {
                 System.err.println("Oh, something is wrong!");
